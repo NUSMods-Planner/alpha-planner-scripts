@@ -1,11 +1,11 @@
 import { AcademicYearConfig, SemesterConfig } from "../config/config";
 
 interface SemesterInterface {
-    name : string,
-    acadYear : AcademicYearConfig,
-    semester : SemesterConfig,
-    description : string,
-    modules : string[] // Module class
+    name : string,                      // user-defined name of semester
+    acadYear : AcademicYearConfig,      // academic year of given semester
+    semester : SemesterConfig,          // semester index (ie. 'SEM 1', 'ST 1')
+    description : string,               // user-defined additional description
+    modules : string[]                  // list of all module codes taken in the semester
 
     // getter-setter
     getName() : string
@@ -17,11 +17,11 @@ interface SemesterInterface {
     getDescription() : string
     setDescription(description : string) : void
     // module interface methods
-    hasModule(moduleCode : string) : boolean
-    addModule(moduleCode : string) : boolean
-    removeModule(moduleCode : string) : boolean
-    isEmpty() : boolean
-    getAllModules() : string[]
+    hasModule(moduleCode : string) : boolean            // check if a module is taken in current semester
+    addModule(moduleCode : string) : boolean            // add new module to current semester
+    removeModule(moduleCode : string) : boolean         // remove existing module from current semester
+    isEmpty() : boolean                                 // check no modules taken in current semester
+    getAllModules() : string[]                          // get entire list of modules taken in current semester
 
 }
 

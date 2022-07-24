@@ -1,19 +1,19 @@
 import { AcademicYearConfig, SemesterConfig } from "../config/config";
 import { SemesterInterface } from "../interfaces/semesterInterface";
 
-
-
 class Semester implements SemesterInterface {
     name;
     acadYear;
     semester;
+    description : string;
     modules : string[];
 
-    constructor(name : string, acadYear : AcademicYearConfig, semester : SemesterConfig) {
+    constructor(name : string, acadYear : AcademicYearConfig, semester : SemesterConfig, description ?: string) {
         this.name = name
         this.acadYear = acadYear
         this.semester = semester
         this.modules = []
+        if (description!==undefined) {this.description = description} else {this.description=''}
     }
 
     getName() : string {
@@ -38,6 +38,14 @@ class Semester implements SemesterInterface {
 
     setSemester(semester : SemesterConfig) : void {
         this.semester = semester
+    }
+
+    getDescription(): string {
+        return this.description
+    }
+
+    setDescription(description: string): void {
+        this.description = description
     }
 
     isEmpty() : boolean {
@@ -74,4 +82,4 @@ class Semester implements SemesterInterface {
     }
 }
 
-export {Semester}
+export { Semester }

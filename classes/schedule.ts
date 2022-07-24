@@ -23,4 +23,4 @@ class Schedule implements ScheduleInterface {
 }
 
 
-export {Schedule}
+export { Schedule }

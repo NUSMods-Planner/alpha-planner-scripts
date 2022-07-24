@@ -13,6 +13,13 @@ interface ModuleInterface {
     preclusions ?: string[],
     prerequisites ?: string[],
     corequisites ?: string[]
+
+    // getter-setter methods
+    getCode() : string
+    setCode(code : string) : void
+    getCredits() : number
+    setCredits(credits : number) : void
+    
 }
 
 export {ModuleInterface}

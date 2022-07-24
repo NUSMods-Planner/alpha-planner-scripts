@@ -1,5 +1,13 @@
 {
   "dependencies": {
     "typescript": "^4.7.4"
-  }
+  },
+  "devDependencies": {
+    "jest": "^28.1.3"
+  },
+  "scripts": {
+    "test": "tsc && jest",
+    "dev": "tsc && node dist/index.js"
+  },
+  "type": "module"
 }

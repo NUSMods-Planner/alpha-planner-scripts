@@ -26,6 +26,7 @@ interface ScheduleInterface {
     defineMatriculationYear(acadYear : AcademicYearConfig) : void
     convertYear(year : number | AcademicYearConfig) : AcademicYearConfig | number
     // semester methods
+    initialiseSemesters( year : number | AcademicYearConfig) : void
     hasSemester(acadYear : AcademicYearConfig, semester : SemesterConfig) : boolean
     addSemester(acadYear : AcademicYearConfig, semester : SemesterConfig) : boolean
     removeSemester(acadYear : AcademicYearConfig, semester : SemesterConfig) : boolean

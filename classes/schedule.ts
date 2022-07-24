@@ -6,10 +6,10 @@
  */
 
 import { AcademicYearConfig } from "../config/config";
-import { ScheduleInterface } from "../interfaces/scheduleInterface";
+// import { ScheduleInterface } from "../interfaces/scheduleInterface";
 import { Semester } from "./semester";
 
-class Schedule implements ScheduleInterface {
+class Schedule  {
     meta: { name: string; acadYear?: AcademicYearConfig | undefined; description?: string | undefined; };
     semesters : Semester[]
 

@@ -2,17 +2,19 @@ import { AcademicYearConfig, SemesterConfig } from "../config/config";
 import { SemesterInterface } from "../interfaces/semesterInterface";
 
 class Semester implements SemesterInterface {
-    name;
-    acadYear;
-    semester;
+    name : string;
+    year : number;
+    acadYear ?: AcademicYearConfig;
+    semester : SemesterConfig;
     description : string;
     modules : string[];
 
-    constructor(name : string, acadYear : AcademicYearConfig, semester : SemesterConfig, description ?: string) {
+    constructor(name : string, year : number, semester : SemesterConfig, acadYear ?: AcademicYearConfig, description ?: string) {
         this.name = name
-        this.acadYear = acadYear
+        this.year = year
         this.semester = semester
         this.modules = []
+        if (acadYear!==undefined) {this.acadYear = acadYear}
         if (description!==undefined) {this.description = description} else {this.description=''}
     }
 
@@ -23,9 +25,17 @@ class Semester implements SemesterInterface {
     setName(name : string) : void {
         this.name = name
     }
+    
+    getYear() : number {
+        return this.year
+    }
 
-    getAcadYear() : AcademicYearConfig {
-        return this.acadYear
+    setYear(year : number) : void {
+        this.year = year
+    }
+
+    getAcadYear() : (AcademicYearConfig | null) {
+        return this.acadYear===undefined ? null : this.acadYear
     }
 
     setAcadYear(acadYear : AcademicYearConfig) : void {
@@ -73,7 +83,7 @@ class Semester implements SemesterInterface {
     removeModule(moduleCode : string) : boolean {
         if (this.hasModule(moduleCode)) {
             //remove module
-            this.modules.splice(this.modules.indexOf(moduleCode))
+            this.modules.splice(this.modules.indexOf(moduleCode), 1)
             return true
         } else {
             // module not found

@@ -2,7 +2,8 @@ import { AcademicYearConfig, SemesterConfig } from "../config/config";
 
 interface SemesterInterface {
     name : string,                      // user-defined name of semester
-    acadYear : AcademicYearConfig,      // academic year of given semester
+    year : number                       // user-defined year of course (eg. Y1/2/3/4)
+    acadYear ?: AcademicYearConfig,      // academic year of given semester
     semester : SemesterConfig,          // semester index (ie. 'SEM 1', 'ST 1')
     description : string,               // user-defined additional description
     modules : string[]                  // list of all module codes taken in the semester
@@ -10,7 +11,9 @@ interface SemesterInterface {
     // getter-setter
     getName() : string
     setName(name : string) : void
-    getAcadYear() : AcademicYearConfig
+    getYear() : number
+    setYear(year : number) : void
+    getAcadYear() : AcademicYearConfig | null
     setAcadYear(acadYear : AcademicYearConfig) : void
     getSemester() : SemesterConfig
     setSemester(semester : SemesterConfig) : void

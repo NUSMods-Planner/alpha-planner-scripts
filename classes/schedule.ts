@@ -7,19 +7,18 @@
 
 import { AcademicYearConfig, SemesterConfig } from "../config/config";
 import { ScheduleInterface } from "../interfaces/scheduleInterface";
-import { nextAcademicYear } from "../scripts/utils";
 import { Semester } from "./semester";
 
 class Schedule implements ScheduleInterface {
     name: string;
-    acadYear : AcademicYearConfig;
+    matriculationYear : AcademicYearConfig;
     semesters : Semester[]
     description : string;
 
-    constructor(name : string, acadYear : AcademicYearConfig, description ?: string) {
+    constructor(name : string, matriculationYear : AcademicYearConfig, description ?: string) {
         // load input parameters
         this.name = name
-        this.acadYear = acadYear
+        this.matriculationYear = matriculationYear
         this.semesters = []
         if (description === undefined) {
             this.description = ''
@@ -36,12 +35,12 @@ class Schedule implements ScheduleInterface {
         this.name = name
     }
 
-    getAcadYear(): AcademicYearConfig {
-        return this.acadYear
+    getMatriculationYear(): AcademicYearConfig {
+        return this.matriculationYear
     }
 
-    setAcadYear(acadYear: AcademicYearConfig): void {
-        this.acadYear = acadYear
+    setMatriculationYear(acadYear: AcademicYearConfig): void {
+        this.matriculationYear = acadYear
     }
 
     getDescription(): string {
@@ -52,20 +51,20 @@ class Schedule implements ScheduleInterface {
         this.description = description
     }
 
-    initialiseSemesters(year: number): void {
+    initialiseSemesters(years   : number): void {
         // consider emptying semesters?
-        let currentAcadYear : AcademicYearConfig = this.acadYear
-        for (let i=0;i++;i<=year) {
-            this.addSemester(currentAcadYear, 1)
-            this.addSemester(currentAcadYear, 2)
-            nextAcademicYear(currentAcadYear)
+        for (let i=1;i<years+1;i++) {
+            console.log(i)
+            this.addSemester(i, 1)
+            this.addSemester(i, 2)
+            console.log()
         }
     }
 
-    private findSemester(acadYear : AcademicYearConfig, semester : SemesterConfig) : number {
-        for (let i=0;i++;i<this.semesters.length) {
+    private findSemester(year : number, semester : SemesterConfig) : number {
+        for (let i=0;i<this.semesters.length;i++) {
             let currentSemester = this.semesters[i]
-            if (currentSemester.getAcadYear()===acadYear && currentSemester.getSemester()===semester) {
+            if (currentSemester.getYear()===year && currentSemester.getSemester()===semester) {
                 // current sem matches both acadYear and semIndex
                 return i
             }
@@ -74,23 +73,23 @@ class Schedule implements ScheduleInterface {
         return -1
     }
 
-    hasSemester(acadYear: AcademicYearConfig, semester: SemesterConfig): boolean {
-        return this.findSemester(acadYear, semester)!==-1
+    hasSemester(year: number, semester: SemesterConfig): boolean {
+        return this.findSemester(year, semester)!==-1
     }
 
-    addSemester(acadYear: AcademicYearConfig, semester: SemesterConfig): boolean {
+    addSemester(year: number, semester: SemesterConfig): boolean {
         // check not duplicate
-        if (this.hasSemester(acadYear, semester)) {
+        if (this.hasSemester(year, semester)) {
             return false
         }
         // push new semester
-        let newSemester = new Semester(`Sem ${this.semesters.length+1}`, acadYear, semester)
+        let newSemester = new Semester(`Sem ${this.semesters.length+1}`, year, semester)
         this.semesters.push(newSemester)
         return true
     }
 
-    removeSemester(acadYear: AcademicYearConfig, semester: SemesterConfig): boolean {
-        let index = this.findSemester(acadYear, semester)
+    removeSemester(year: number, semester: SemesterConfig): boolean {
+        let index = this.findSemester(year, semester)
         if (index===-1) {
             //return false if sem not found
             return false
@@ -101,8 +100,9 @@ class Schedule implements ScheduleInterface {
         }
     }
 
+    // separate methods for global and local checks
     hasModule(moduleCode: string): boolean {
-        for (let i=0;i++;i<this.semesters.length) {
+        for (let i=0;i<this.semesters.length;i++) {
             let currentSemester = this.semesters[i]
             if (currentSemester.hasModule(moduleCode)) {
                 // return and exit when found
@@ -113,39 +113,29 @@ class Schedule implements ScheduleInterface {
         return false
     }
 
-    addModule(moduleCode: string, year: number | AcademicYearConfig, semester: SemesterConfig): boolean {
-        // convert years into AY
-        let acadYear = this.acadYear // add input years
-        // check sem not duplicate
-        let semIndex = this.findSemester(acadYear, semester)
+    addModule(moduleCode: string, year: number , semester: SemesterConfig): boolean {
+        // check duplicate
+        // if (this.hasModule(moduleCode)) { return false }
+        // check sem
+        let semIndex = this.findSemester(year, semester)
         if (semIndex===-1) { return false}
         // add into
         return this.semesters[semIndex].addModule(moduleCode)
     }
 
-    removeModule(moduleCode: string, year: number | AcademicYearConfig, semester: SemesterConfig): boolean {
-        // convert years into AY
-        let acadYear = this.acadYear // add input years
+    removeModule(moduleCode: string, year: number , semester: SemesterConfig): boolean {
         // check sem exists
-        let semIndex = this.findSemester(acadYear, semester)
-        if (semIndex!==-1) { return false}
-        // add into
+        let semIndex = this.findSemester(year, semester)
+        if (semIndex===-1) { return false}
+        // remove, removeModule returns false if mod not found
         return this.semesters[semIndex].removeModule(moduleCode)
-    }
-
-    defineMatriculationYear(acadYear: AcademicYearConfig): void {
-        // reset all semesters based off new acad year
-    }
-
-    convertYear(year: number | AcademicYearConfig): number | AcademicYearConfig {
-        return 0
     }
 
     flatten(): string[] {
         let modules : string[] = []
         // get all modules in each semester
-        for (let i=0;i++;i<this.semesters.length) {
-            modules.concat(this.semesters[i].getAllModules())
+        for (let i=0;i<this.semesters.length;i++) {
+            modules = modules.concat(this.semesters[i].getAllModules())
         }
         return modules
     }

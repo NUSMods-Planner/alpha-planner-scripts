@@ -4,18 +4,10 @@
  *
  */
 
+import { CourseEdge, CourseNode } from "../classes/course";
 import { AcademicYearConfig, FacultyConfig } from "../config/config";
 
 interface CourseInterface {
-    meta : {
-        name : string,                          // name of course
-        acadYear : AcademicYearConfig,          // academic year of course
-        description ?: string,                  // additional description of course
-        faculty : FacultyConfig,                // faculty which the course is offered bby
-        department : string,                    // department within faculty that is offering the course
-    },
-    requirements : (Node | Edge)[]                     // list of nodes defining requirements tree
-
     // getter-setter methods
     getName() : string
     setName(name : string) : void
@@ -28,32 +20,49 @@ interface CourseInterface {
     getDepartment() : string
     setDepartment(department : string) : void
     // intermediate methods
-    initialise() : void         // initialise course tree
-    verify() : Object           // traverse course tree to verify requirements completed
+    initialise(requirements : Object) : void         // initialise course tree
+    verify(modules : string[]) : Object           // traverse course tree to verify requirements completed
 }
 
 // Requirement Nodes
 
-interface Node {
+interface CourseNodeInterface {
     module : string
-    criteria ?: []
+    criteria ?: Object[]
+
+    getModule() : string
+    setModule(module : string) : void
+    getCriteria() : Object[]
+    setCriteria(criteria : Object[]) : void
+    pushCriteria(criteria : Object) : void
 }
 
-const enum EdgeType {
+const enum CourseEdgeType {
     'AND',
     'OR',
     'SECTION'
 }
-interface Edge { 
-    type : EdgeType
-    requirements : (Node | Edge)[]
-    criteria ?: []
+interface CourseEdgeInterface { 
+    type : CourseEdgeType
+    requirements : (CourseNode | CourseEdge)[]
+    criteria : Object[]
     title ?: string
+
+    getType() : CourseEdgeType
+    setType(type : CourseEdgeType) : void
+    getRequirements() : (CourseNode | CourseEdge)[]
+    setRequirements(requirements : (CourseNode | CourseEdge)[]) : void
+    pushRequirement(requirement : (CourseNode | CourseEdge)) : void
+    getCriteria() : Object[]
+    setCriteria(criteria : Object[]) : void
+    pushCriteria(criteria : Object) : void
+    getTitle() : string
+    setTitle(title : string) : void
 }
 
 export { 
     CourseInterface,
-    Node,
-    EdgeType,
-    Edge
+    CourseNodeInterface,
+    CourseEdgeType,
+    CourseEdgeInterface
 }

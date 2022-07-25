@@ -7,6 +7,7 @@
 import { AcademicYearConfig } from "../config/config";
 
 const addAcademicYears = (acadYear : AcademicYearConfig, years : number) : AcademicYearConfig => {
+    years = years+1
     return acadYear
 }
 

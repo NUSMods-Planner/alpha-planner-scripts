@@ -8,6 +8,5 @@
   "scripts": {
     "test": "tsc && jest",
     "dev": "tsc && node dist/index.js"
-  },
-  "type": "module"
+  }
 }

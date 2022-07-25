@@ -17,10 +17,16 @@ const enum SemesterConfig {
 
 const enum FacultyConfig {
     'College of Humanities & Science (Faculty of Science)'='CHS (FoS)',
-    'College of Humanities & Science (Faculty of Arts & Social Sciences)'='CHS (FASS)s',
+    'College of Humanities & Science (Faculty of Arts & Social Sciences)'='CHS (FASS)',
     'College of Design & Engineering'='CDE',
     'School of Computing'='SoC',
     'NUS Business School'='BIZ',
+    'Faculty of Law'='LAW',
+    'School of Dentistry'='DENT',
+    'Yong Loo Lin School of Medicine'='MED',
+    'Alice Lee Centre for Nursing Studies'='NURSING',
+    'Yong Siew Toh Conservatory of Music'='YST',
+    'NUS College'='NUSC'
 }
 
 export {
